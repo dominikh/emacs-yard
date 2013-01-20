@@ -26,15 +26,18 @@
                         '(
                           ("^ *# *\\(@.+$\\)" 1 font-lock-yard-face prepend)
                           ;; tags
-                          ("^ *# *\\(@[a-z_]+\\)" 1 font-lock-keyword-face prepend)
+                          ("^ *# *\\(@!?[a-z_]+\\)" 1 font-lock-keyword-face prepend)
+                          ;; inline references
+                          ("^ *# *" (0 nil) ("{.+?\\(}\\|$\\)" nil nil (0 font-lock-doc-face prepend)))
+                          ("^ *# *" (0 nil) ("[^{]+?}" nil nil (0 font-lock-doc-face prepend)))
                           ;; types ("@tag [Type] ...")
-                          ("^ *# *@[a-z_]+ +\\(\\[.+?\\]\\)" 1 font-lock-type-face prepend)
+                          ("^ *# *@!?[a-z_]+ +\\(\\[.+?\\]\\)" 1 font-lock-type-face prepend)
                           ;; name of params ("@tag [Type] argname Description")
                           ("^ *# *@\\(param\\|yieldparam\\|attr\\|attr_reader\\|attr_writer\\)[ ]+\\[.+?\\] +\\([^ ]+\\)" 2 font-lock-yard-param-name-face prepend)
                           ;; references
                           ("^ *# *@see +\\(.+\\)" 1 font-lock-doc-face prepend)
                           ;; references
-                          ("^ *# *@[a-z_]+ +\\((see .+)\\)" 1 font-lock-doc-face prepend)
+                          ("^ *# *@!?[a-z_]+ +\\((see .+)\\)" 1 font-lock-doc-face prepend)
                           ;; @option hash names
                           ("^ *# *@option +\\([^ ]+\\)" 1 font-lock-yard-param-name-face prepend)
                           ;; @option param types
@@ -44,6 +47,4 @@
                           ;; @option default values
                           ("^ *# *@option +[^ ]+ +\\[.+?\\] +[^ ]+ +\\((.+?)\\)" 1 font-lock-yard-option-default-value-face prepend)
                           ("^ *# *@overload +\\(.+?\\)(" 1 font-lock-function-name-face prepend)
-                          ("^ *# *" (0 nil) ("{.+?\\(}\\|$\\)" nil nil (0 font-lock-doc-face prepend)))
-                          ("^ *# *" (0 nil) ("[^{]+?}" nil nil (0 font-lock-doc-face prepend)))
                           ))
